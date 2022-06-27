@@ -2,14 +2,15 @@
 DOCKER_COMP = docker-compose
 
 # Docker containers
-PHP_CONT = $(DOCKER_COMP) exec php
+PHP_CONT  = $(DOCKER_COMP) exec php
+NODE_CONT = $(DOCKER_COMP) exec node
 
 # Executables
 PHP      = $(PHP_CONT) php
 
 # Misc
 .DEFAULT_GOAL = help
-.PHONY        = help build up start down logs sh
+.PHONY        = help build up start down logs sh _yarn
 
 ## —— 🎵 🐳 The Symfony-docker Makefile 🐳 🎵 ——————————————————————————————————
 help: ## Outputs this help screen
@@ -32,3 +33,6 @@ logs: ## Show live logs
 
 sh: ## Connect to the PHP FPM container
 	@$(PHP_CONT) sh
+
+_yarn: ## Get correct yarn
+	@echo $(NODE_CONT) yarn

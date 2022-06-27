@@ -6,9 +6,14 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG PHP_VERSION=8.1
 ARG CADDY_VERSION=2
+ARG NODE_VERSION=17
 
 # "php" stage
-FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
+FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php_build
+
+# Allow to choose skeleton
+ARG APP_ENV="dev"
+ENV APP_ENV ${APP_ENV}
 
 # persistent / runtime deps
 RUN apk add --no-cache \
@@ -106,6 +111,15 @@ RUN set -eux; \
 	composer run-script --no-dev post-install-cmd; \
 	chmod +x bin/console; sync
 VOLUME /srv/app/var
+
+FROM node:${NODE_VERSION}-alpine AS symfony_node
+WORKDIR /srv/app
+COPY --from=symfony_php_build /srv/app .
+RUN if [ "$APP_ENV" = "prod" ] ; then yarn --frozen-lockfile --production=true ; else yarn ; fi
+RUN yarn run build
+
+FROM symfony_php_build AS symfony_php
+COPY --from=symfony_node /srv/app/public/build public/build
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]

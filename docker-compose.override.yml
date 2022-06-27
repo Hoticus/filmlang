@@ -17,6 +17,18 @@ services:
     volumes:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./public:/srv/app/public:ro
+  
+  node:
+    build:
+      context: .
+      target: symfony_node
+    volumes:
+      - ./:/srv/app:rw,cached
+    ports:
+     - target: 8080
+       published: 8080
+       protocol: tcp
+    command: 'sh -c "yarn; yarn run dev-server -- --server-type https --client-web-socket-url https://localhost:8080 --host 0.0.0.0"'
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
