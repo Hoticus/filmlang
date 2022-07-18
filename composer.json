@@ -13,6 +13,7 @@
         "symfony/dotenv": "6.1.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.1.*",
+        "symfony/http-client": "6.1.*",
         "symfony/runtime": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
         "symfony/webpack-encore-bundle": "^1.14",
@@ -74,6 +75,8 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.43"
+        "symfony/maker-bundle": "^1.43",
+        "symfony/stopwatch": "6.1.*",
+        "symfony/web-profiler-bundle": "6.1.*"
     }
 }
