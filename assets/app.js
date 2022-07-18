@@ -1,15 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from "react"
+import ReactDOM from "react-dom/client"
+import Header from "./components/Header"
 
-import './styles/app.sass'
+import "./styles/app.sass"
 
-function App() {
+const App = () => {
   return (
-    <div></div>
+    <>
+      <Header />
+    </>
   )
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
-  <App/>
-)
+const root = ReactDOM.createRoot(document.getElementById("root"))
+root.render(<App />)

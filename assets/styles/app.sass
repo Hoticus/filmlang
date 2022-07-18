@@ -1,7 +1,18 @@
+@use 'sass:map'
+
 @import reset
+@import vars
 
 *, *::before, *::after
     box-sizing: border-box
 
 html
     font-size: 10px
+    font-family: 'Cantarell', sans-serif
+
+h1, h2, h3, h4, h5, h6
+    font-family: 'Fjalla One', sans-serif
+
+@import blocks/logo
+@import blocks/container
+@import blocks/header
