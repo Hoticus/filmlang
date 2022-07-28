@@ -61,6 +61,7 @@ services:
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-13}-alpine
+    user: 999:999
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       # You should definitely change the password in production
@@ -71,6 +72,7 @@ services:
       # - db-data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       - ./docker/db/data:/var/lib/postgresql/data:rw
+    entrypoint: bash -lc "sleep 2; /usr/local/bin/postgres"
 ###< doctrine/doctrine-bundle ###
 
 volumes:
