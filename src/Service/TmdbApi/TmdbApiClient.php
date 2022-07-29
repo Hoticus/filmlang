@@ -2,7 +2,7 @@
 
 namespace App\Service\TmdbApi;
 
-use App\Service\TmdbApi\Enum\MoviesSortEnum;
+use App\Enum\TmdbApi\MoviesSortEnum;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

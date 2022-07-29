@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\TmdbApi\Enum;
+namespace App\Enum\TmdbApi;
 
 /**
  * @see https://developers.themoviedb.org/3/discover/movie-discover#EpDef-def sort_by
