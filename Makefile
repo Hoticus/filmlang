@@ -12,7 +12,7 @@ YARN     = $(NODE_CONT) yarn
 
 # Misc
 .DEFAULT_GOAL = help
-.PHONY        = help build up start down logs _php _composer _yarn
+.PHONY        = help build up down logs _php _symfony _composer _yarn
 
 ## —— 🎵 🐳 The Symfony-docker Makefile 🐳 🎵 ——————————————————————————————————
 help: ## Outputs this help screen
@@ -25,8 +25,6 @@ build: ## Builds the Docker images
 up: ## Start the docker hub in detached mode (no logs)
 	@$(DOCKER_COMP) up --detach
 
-start: build up ## Build and start the containers
-
 down: ## Stop the docker hub
 	@$(DOCKER_COMP) down --remove-orphans
 
@@ -35,6 +33,9 @@ logs: ## Show live logs
 
 _php: ## Get correct php
 	@echo $(PHP)
+
+_symfony: ## Get correct symfony console
+	@echo $(PHP) bin/console
 
 _composer: ## Get correct composer
 	@echo $(COMPOSER)
