@@ -1,0 +1,10 @@
+framework:
+    rate_limiter:
+        ip_authentication_code_email:
+            policy: fixed_window
+            limit: 3
+            interval: '1 minute'
+        email_ip_authentication_code_email:
+            policy: fixed_window
+            limit: 1
+            interval: '1 minute'

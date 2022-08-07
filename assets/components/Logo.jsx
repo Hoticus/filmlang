@@ -7,7 +7,7 @@ const Logo = ({ dark }) => {
   const color = dark ? "#111" : "#fff"
   return (
     <svg
-      className="logo"
+      className="w-24"
       viewBox="0 0 208 89"
       xmlns="http://www.w3.org/2000/svg"
     >

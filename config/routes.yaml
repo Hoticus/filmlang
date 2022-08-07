@@ -1,3 +1,6 @@
+app_logout:
+    path: /logout
+    methods: GET
 controllers:
     resource: ../src/Controller/
     type: attribute

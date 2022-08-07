@@ -19,6 +19,23 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    
+    App\Security\Authenticator:
+        arguments:
+            $loginRateLimiter: '@security.login_throttling.main.limiter'
+    
+    App\Service\JsonApiErrorResponseCreator:
+        arguments:
+            $problemNormalizer: '@serializer.normalizer.problem'
+    
+    serializer.normalizer.problem:
+        class: App\Serializer\ProblemNormalizer
+        arguments:
+            $debug: '%kernel.debug%'
+    
+    App\Serializer\ProblemNormalizer:
+        arguments:
+            $debug: '%kernel.debug%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
