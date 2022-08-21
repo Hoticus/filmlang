@@ -44,7 +44,10 @@ class TmdbApiClient
     {
         return $this->request('discover/movie', [
             'page' => $page,
-            'sort_by' => $sortBy->value
+            'sort_by' => $sortBy->value,
+            'include_videos' => false,
+            'vote_average.gte' => 1,
+            'with_original_language' => 'en',
         ]);
     }
 

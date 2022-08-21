@@ -23,6 +23,10 @@ framework:
                 base_uri: 'https://api.themoviedb.org'
                 auth_bearer: '%env(TMDB_API_TOKEN)%'
 
+when@dev:
+    framework:
+        http_cache: true
+
 when@test:
     framework:
         test: true

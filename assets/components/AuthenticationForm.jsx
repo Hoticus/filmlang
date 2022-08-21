@@ -146,7 +146,11 @@ class AuthenticationForm extends React.Component {
             />
           </label>
           <PrimaryButton type="submit" disabled={this.state.loading}>
-            {this.state.loading ? <Spinner className="w-6 h-6" /> : "Submit"}
+            {this.state.loading ? (
+              <Spinner className="w-6 h-6 text-white" />
+            ) : (
+              "Submit"
+            )}
           </PrimaryButton>
           <p className="text-center">
             Didn't receive the email?{" "}
@@ -192,7 +196,11 @@ class AuthenticationForm extends React.Component {
           </label>
 
           <PrimaryButton type="submit" disabled={this.state.loading}>
-            {this.state.loading ? <Spinner className="w-6 h-6" /> : "Next"}
+            {this.state.loading ? (
+              <Spinner className="w-6 h-6 text-white" />
+            ) : (
+              "Next"
+            )}
           </PrimaryButton>
           {this.state.error !== null && (
             <p className="bg-red-50 text-sm text-red-600 border border-red-500 rounded-lg p-2.5 text-center">
