@@ -63,4 +63,16 @@ class TmdbApiClient
             'page' => $page,
         ]);
     }
+
+    /**
+     * @see https://developers.themoviedb.org/3/movies/get-movie-details
+     */
+    public function getMovieDetails(int $id, ?array $appendToResponse = null): array
+    {
+        $data = [];
+        if ($appendToResponse !== null) {
+            $data['append_to_response'] = implode(',', $appendToResponse);
+        }
+        return $this->request('movie/' . $id, $data);
+    }
 }

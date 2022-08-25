@@ -1,5 +1,6 @@
 import React from "react"
 import InfiniteScroll from "react-infinite-scroller"
+import { Link } from "react-router-dom"
 import Spinner from "../components/Spinner"
 
 class Home extends React.Component {
@@ -14,13 +15,9 @@ class Home extends React.Component {
   constructor(props) {
     super(props)
 
-    this.loadFilms = this.loadFilms.bind(this)
-  }
+    this.state.configuration = props.configuration
 
-  componentDidMount() {
-    fetch("/api/get-tmdb-api-configuration")
-      .then((res) => res.json())
-      .then((res) => this.setState({ configuration: res.response }))
+    this.loadFilms = this.loadFilms.bind(this)
   }
 
   loadFilms() {
@@ -53,39 +50,35 @@ class Home extends React.Component {
           }
         >
           <ul className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-6">
-            {this.state.films.map((film, index) => (
+            {this.state.films.map((film) => (
               <li
-                key={index}
+                key={film.id}
                 className="sm:max-w-sm rounded-lg border border-gray-200 shadow-md"
               >
-                <a href="#" className="flex sm:block relative">
+                <Link to={"film/" + film.id} className="flex sm:block relative">
                   <picture>
                     <source
                       media="(max-width: 640px)"
                       srcSet={
-                        this.state.configuration !== null
-                          ? this.state.configuration.images.secure_base_url +
-                            (this.state.configuration.images.poster_sizes.includes(
-                              "w185",
-                            )
-                              ? "w185"
-                              : "original") +
-                            film.poster_path
-                          : ""
+                        this.state.configuration.images.secure_base_url +
+                        (this.state.configuration.images.poster_sizes.includes(
+                          "w185",
+                        )
+                          ? "w185"
+                          : "original") +
+                        film.poster_path
                       }
                     />
                     <img
                       className="rounded-l-lg sm:rounded-bl-none sm:rounded-t-lg max-w-[92px] sm:max-w-full"
                       src={
-                        this.state.configuration !== null
-                          ? this.state.configuration.images.secure_base_url +
-                            (this.state.configuration.images.poster_sizes.includes(
-                              "w500",
-                            )
-                              ? "w500"
-                              : "original") +
-                            film.poster_path
-                          : ""
+                        this.state.configuration.images.secure_base_url +
+                        (this.state.configuration.images.poster_sizes.includes(
+                          "w500",
+                        )
+                          ? "w500"
+                          : "original") +
+                        film.poster_path
                       }
                       alt=""
                     />
@@ -110,7 +103,7 @@ class Home extends React.Component {
                       {film.overview}
                     </p>
                   </div>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

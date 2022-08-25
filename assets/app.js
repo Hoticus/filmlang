@@ -4,12 +4,16 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import Header from "./components/Header"
 import AuthenticationForm from "./components/AuthenticationForm"
 import Home from "./pages/Home"
+import FilmDetail from "./pages/FilmDetail"
 
 import "./styles/app.sass"
 
 const initialize = async () => {
   const authenticated = (await (await fetch("/api/is-authenticated")).json())
     .response
+  const configuration = (
+    await (await fetch("/api/get-tmdb-api-configuration")).json()
+  ).response
 
   class App extends React.Component {
     state = {
@@ -33,7 +37,8 @@ const initialize = async () => {
           <Header authenticated={authenticated} />
           <main>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home configuration={configuration} />} />
+              <Route path="film/:id" element={<FilmDetail configuration={configuration} />} />
               {!authenticated && (
                 <Route
                   path="authentication"
