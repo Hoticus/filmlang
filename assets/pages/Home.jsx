@@ -44,12 +44,12 @@ class Home extends React.Component {
           hasMore={this.state.page <= 1000}
           loadMore={this.loadFilms}
           loader={
-            <div key="loader" className="text-center my-4">
+            <div key="loader" className="text-center mb-4">
               <Spinner className="w-10 h-10" />
             </div>
           }
         >
-          <ul className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-6">
+          <ul className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-6 mb-4">
             {this.state.films.map((film) => (
               <li
                 key={film.id}

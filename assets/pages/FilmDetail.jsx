@@ -21,7 +21,7 @@ const FilmDetail = ({ configuration }) => {
   }, [])
 
   return isLoading ? (
-    <div className="text-center my-4">
+    <div className="text-center mt-12 mb-4">
       <Spinner className="w-10 h-10" />
     </div>
   ) : (
