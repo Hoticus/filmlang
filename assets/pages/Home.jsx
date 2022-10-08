@@ -83,21 +83,71 @@ class Home extends React.Component {
                       alt=""
                     />
                   </picture>
-                  <div
-                    className={
-                      "absolute -top-2 -left-2 px-2 rounded-lg text-white " +
-                      (film.vote_average >= 7
-                        ? "bg-green-500"
-                        : film.vote_average < 5
-                        ? "bg-red-500"
-                        : "bg-gray-500")
-                    }
-                  >
-                    {film.vote_average.toFixed(1)}
+                  <div className="absolute -top-2 -left-2 flex space-x-2">
+                    <div
+                      className={
+                        "px-2 rounded-lg text-white " +
+                        (film.vote_average >= 7
+                          ? "bg-green-500"
+                          : film.vote_average < 5
+                          ? "bg-red-500"
+                          : "bg-gray-500")
+                      }
+                    >
+                      {film.vote_average.toFixed(1)}
+                    </div>
+                    <div
+                      className={
+                        "px-2 rounded-lg text-white hidden sm:block " +
+                        {
+                          1: "bg-green-400",
+                          2: "bg-green-500",
+                          3: "bg-yellow-400",
+                          4: "bg-yellow-500",
+                          5: "bg-orange-500",
+                          6: "bg-red-500",
+                        }[film.language]
+                      }
+                    >
+                      {
+                        {
+                          1: "A1",
+                          2: "A2",
+                          3: "B1",
+                          4: "B2",
+                          5: "C1",
+                          6: "C2",
+                        }[film.language]
+                      }
+                    </div>
                   </div>
                   <div className="px-5 py-3 flex flex-col justify-between">
                     <p className="font-bold text-gray-900 sm:text-center mb-2 sm:mb-0">
                       {film.title}
+                      <span
+                        className={
+                          "ml-2 inline-block font-normal px-2 rounded-lg text-white sm:hidden " +
+                          {
+                            1: "bg-green-400",
+                            2: "bg-green-500",
+                            3: "bg-yellow-400",
+                            4: "bg-yellow-500",
+                            5: "bg-orange-500",
+                            6: "bg-red-500",
+                          }[film.language]
+                        }
+                      >
+                        {
+                          {
+                            1: "A1",
+                            2: "A2",
+                            3: "B1",
+                            4: "B2",
+                            5: "C1",
+                            6: "C2",
+                          }[film.language]
+                        }
+                      </span>
                     </p>
                     <p className="text-gray-700 line-clamp-2 sm:hidden">
                       {film.overview}

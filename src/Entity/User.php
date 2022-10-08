@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -20,6 +22,14 @@ class User implements UserInterface
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
+
+    #[ORM\OneToMany(mappedBy: 'votedUser', targetEntity: FilmLanguageVote::class, orphanRemoval: true)]
+    private $filmLanguageVotes;
+
+    public function __construct()
+    {
+        $this->filmLanguageVotes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,5 +84,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, FilmLanguageVote>
+     */
+    public function getFilmLanguageVotes(): Collection
+    {
+        return $this->filmLanguageVotes;
+    }
+
+    public function addFilmLanguageVote(FilmLanguageVote $filmLanguageVote): self
+    {
+        if (!$this->filmLanguageVotes->contains($filmLanguageVote)) {
+            $this->filmLanguageVotes[] = $filmLanguageVote;
+            $filmLanguageVote->setVotedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilmLanguageVote(FilmLanguageVote $filmLanguageVote): self
+    {
+        if ($this->filmLanguageVotes->removeElement($filmLanguageVote)) {
+            // set the owning side to null (unless already changed)
+            if ($filmLanguageVote->getVotedUser() === $this) {
+                $filmLanguageVote->setVotedUser(null);
+            }
+        }
+
+        return $this;
     }
 }

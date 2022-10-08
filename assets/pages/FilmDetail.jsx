@@ -58,6 +58,30 @@ const FilmDetail = ({ configuration }) => {
             >
               {details.vote_average.toFixed(1)}
             </div>
+            <div
+              className={
+                "inline-block text-base ml-2 px-2 rounded-lg text-white " +
+                {
+                  1: "bg-green-400",
+                  2: "bg-green-500",
+                  3: "bg-yellow-400",
+                  4: "bg-yellow-500",
+                  5: "bg-orange-500",
+                  6: "bg-red-500",
+                }[details.language]
+              }
+            >
+              {
+                {
+                  1: "A1",
+                  2: "A2",
+                  3: "B1",
+                  4: "B2",
+                  5: "C1",
+                  6: "C2",
+                }[details.language]
+              }
+            </div>
           </h1>
           <table className="table-auto w-full my-4">
             <tbody>

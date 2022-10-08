@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\HttpFoundation\JsonApiSuccessfulResponse;
+use App\Repository\FilmRepository;
 use App\Service\TmdbApi\TmdbApiClient;
 use App\Service\TmdbApi\TmdbApiConfiguration;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,8 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiController extends AbstractController
 {
     #[Route('/movie-discover/{page<\d+>}', name: 'movie_discover', methods: ['GET'])]
-    public function movieDiscover(TmdbApiClient $tmdbApiClient, int $page = 1): Response
-    {
+    public function movieDiscover(
+        TmdbApiClient $tmdbApiClient,
+        FilmRepository $filmRepository,
+        int $page = 1
+    ): Response {
+        $filmsWithLanguage = $filmRepository->findAllWithLanguage();
         $data = $tmdbApiClient->movieDiscover($page);
         foreach ($data['results'] as &$movie) {
             unset(
@@ -28,14 +33,38 @@ class ApiController extends AbstractController
                 $movie['video'],
                 $movie['vote_count'],
             );
+
+            $language = null;
+
+            // binary search
+            $low = 0;
+            $high = count($filmsWithLanguage) - 1;
+            while ($low <= $high) {
+                $mid = intdiv($low + $high, 2);
+                $guess = $filmsWithLanguage[$mid]->getTmdbId();
+                if ($guess === $movie['id']) {
+                    $language = $filmsWithLanguage[$mid]->getLanguage();
+                    break;
+                }
+                if ($guess > $movie['id']) {
+                    $high = $mid - 1;
+                } else {
+                    $low = $mid + 1;
+                }
+            }
+
+            $movie['language'] = $language;
         }
 
         return new JsonApiSuccessfulResponse($data);
     }
 
     #[Route('/get-movie-details/{id<\d+>}', name: 'get_movie_details', methods: ['GET'])]
-    public function getMovieDetails(int $id, TmdbApiClient $tmdbApiClient): Response
-    {
+    public function getMovieDetails(
+        int $id,
+        TmdbApiClient $tmdbApiClient,
+        FilmRepository $filmRepository,
+    ): Response {
         $data = $tmdbApiClient->getMovieDetails($id);
         unset(
             $data['adult'],
@@ -55,6 +84,10 @@ class ApiController extends AbstractController
             $data['video'],
             $data['vote_count'],
         );
+
+        $film = $filmRepository->findOneBy(['tmdbId' => $id]);
+        $data['language'] = $film?->getLanguage();
+
         $response = new JsonApiSuccessfulResponse($data);
         $response->headers->set(AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER, 'true');
         $response->setPublic();
